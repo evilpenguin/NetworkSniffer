@@ -1,5 +1,5 @@
 # NetworkSniffer
-NetworkSniffer will log ALL traffic for any iOS application.
+NetworkSniffer will log ALL traffic for any iOS application. This includes WKWebView and UIWebView.
 
 Installation
 ----------
