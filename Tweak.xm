@@ -21,6 +21,6 @@
     [WKBrowsingContextController_class registerSchemeForCustomProtocol:@"http"];
     [WKBrowsingContextController_class registerSchemeForCustomProtocol:@"https"];
 
-    // Register NSURLSession
+    // Register NSProtocol
     [NSURLProtocol registerClass:NSProtocol.class];
 }
