@@ -48,6 +48,7 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
 
     // Log dictionary
     NSMutableDictionary *logResultsDictionary = [NSMutableDictionary dictionary];
+    logResultsDictionary[@"Date"] = [NSDateFormatter localizedStringFromDate:NSDate.date dateStyle:NSDateFormatterFullStyle timeStyle:NSDateFormatterFullStyle];
 
     // Log request to dictionary
     [self _logRequest:mutableRequest toDictionary:logResultsDictionary];
