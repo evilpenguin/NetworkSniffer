@@ -21,14 +21,6 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-
-#import <Foundation/NSURLProtocol.h>
-#import "Defines.h"
-
-__attribute__((visibility("hidden")))
-@interface NSProtocol : NSURLProtocol <NSURLSessionDelegate>
-
-@end
 #import "NSProtocol.h"
 @import ObjectiveC.runtime;
 

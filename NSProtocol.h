@@ -22,7 +22,7 @@
 //  THE SOFTWARE.
 
 
-#import <Foundation/NSURLProtocol.h>
+#import <Foundation/Foundation.h>
 #import "Defines.h"
 
 __attribute__((visibility("hidden")))
