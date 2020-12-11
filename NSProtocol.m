@@ -161,13 +161,15 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
     // CachePolicy
     requestDictionary[@"CachePolicy"] = @(request.cachePolicy);
 
-    // HTTPBody
+   // HTTPBody
     NSData *body = request.HTTPBody;
     if (body.length > 0) {
         NSMutableDictionary *bodyDictionary = [NSMutableDictionary dictionary];
         bodyDictionary[@"Length"] = @(body.length);
 
         NSString *bodyString = [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding];
+        if (bodyString.length > 0) bodyString = [[NSString alloc] initWithData:body encoding:NSASCIIStringEncoding];
+
         if (bodyString.length > 0) bodyDictionary[@"Body"] = bodyString;
         else bodyDictionary[@"Body"] = [self _dataToHexString:body];
 
@@ -176,7 +178,10 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
 
     // HTTPBodyStream
     NSInputStream *bodyStream = request.HTTPBodyStream;
-    if (bodyStream.hasBytesAvailable) {
+    if (bodyStream) {
+        // Open the body before reading
+        [bodyStream open];
+
         NSUInteger readBytes = 0;
         NSMutableData *bodyStreamData = [NSMutableData data];
         while (bodyStream.hasBytesAvailable) {
@@ -185,10 +190,15 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
             [bodyStreamData appendBytes:(const void *)buffer_byte length:1];
         }
 
+        // Close the body
+        [bodyStream close];
+
         NSMutableDictionary *bodyStreamDictionary = [NSMutableDictionary dictionary];
         bodyStreamDictionary[@"Length"] = @(body.length);
 
         NSString *bodyStreamString = [[NSString alloc] initWithData:bodyStreamData encoding:NSUTF8StringEncoding];
+        if (bodyStreamString.length > 0) bodyStreamString = [[NSString alloc] initWithData:bodyStreamData encoding:NSASCIIStringEncoding];
+
         if (bodyStreamString.length > 0) bodyStreamDictionary[@"Body"] = bodyStreamString;
         else bodyStreamDictionary[@"Body"] = [self _dataToHexString:bodyStreamData];
 
@@ -213,6 +223,8 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
         bodyDictionary[@"Length"] = @(data.length);
 
         NSString *bodyString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (bodyString.length > 0) bodyString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+
         if (bodyString.length > 0) bodyDictionary[@"Body"] = bodyString;
         else bodyDictionary[@"Body"] = [self _dataToHexString:data];
 
