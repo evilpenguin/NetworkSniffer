@@ -28,13 +28,28 @@
 + (void) registerSchemeForCustomProtocol:(NSString *)protocol;
 @end
 
+NSArray<Class> *_protocols(NSArray<Class> *classes) {
+    NSMutableArray *protocolClasses = [classes mutableCopy];
+
+    if (![protocolClasses containsObject:NSProtocol.class]) {
+        [protocolClasses addObject:NSProtocol.class];
+    }
+
+    return protocolClasses.copy;
+}
+
+%hook __NSCFURLSessionConfiguration
+ 
+- (NSArray<Class> *) protocolClasses {
+    return _protocols(%orig);
+}
+
+%end
+
 %hook NSURLSessionConfiguration
  
 - (NSArray<Class> *) protocolClasses {
-    NSMutableArray *protocolClasses = [%orig mutableCopy];
-    [protocolClasses addObject:NSProtocol.class];
-
-    return protocolClasses.copy;
+    return _protocols(%orig);
 }
 
 %end
