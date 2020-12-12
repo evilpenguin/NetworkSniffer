@@ -28,6 +28,27 @@
 + (void) registerSchemeForCustomProtocol:(NSString *)protocol;
 @end
 
+%hook NSURLSessionConfiguration
+ 
+- (NSArray<Class> *) protocolClasses {
+    NSMutableArray *protocolClasses = [%orig mutableCopy];
+    [protocolClasses addObject:NSProtocol.class];
+
+    return protocolClasses.copy;
+}
+
+%end
+
+%hook NSURLProtocol
+
++ (void) unregisterClass:(Class)protocolClass {
+    if (protocolClass != NSProtocol.class) {
+        %orig;
+    }
+}
+
+%end
+
 %ctor {
     DLog(@"Starting");
 
