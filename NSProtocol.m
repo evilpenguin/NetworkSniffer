@@ -177,11 +177,11 @@ static NSString * const NSProtocolHandledKey = @"NSProtocolHandledKey";
         // Open the body before reading
         [bodyStream open];
 
-        NSUInteger readBytes = 0;
+        //NSUInteger readBytes = 0;
         NSMutableData *bodyStreamData = [NSMutableData data];
         while (bodyStream.hasBytesAvailable) {
             uint8_t buffer_byte[1];
-            readBytes +=  [bodyStream read:buffer_byte maxLength:1];
+            //readBytes +=  [bodyStream read:buffer_byte maxLength:1];
             [bodyStreamData appendBytes:(const void *)buffer_byte length:1];
         }
 
